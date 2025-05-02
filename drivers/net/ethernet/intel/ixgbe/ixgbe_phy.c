@@ -1769,6 +1769,11 @@ int ixgbe_identify_sfp_module_generic(struct ixgbe_hw *hw)
 	      hw->phy.sfp_type == ixgbe_sfp_type_1g_sx_core1 ||
 	      hw->phy.sfp_type == ixgbe_sfp_type_1g_bx_core0 ||
 	      hw->phy.sfp_type == ixgbe_sfp_type_1g_bx_core1)) {
+		if (hw->allow_unsupported_sfp) {
+			e_warn(drv, "WARNING: driver hit jake's special path.\n");
+			hw->phy.type = ixgbe_phy_sfp_intel;
+			return 0;
+		}
 		hw->phy.type = ixgbe_phy_sfp_unsupported;
 		return -EOPNOTSUPP;
 	}
